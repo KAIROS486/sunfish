@@ -857,7 +857,7 @@ function toonAIHTML(cuts){
   return `<div class="toon">`+cuts.map((c,i)=>{
     const url=pollImg(c.prompt||c.en||'', 1000+i);
     return `<div class="cut"><div class="cut-no">${i+1}</div>`+
-      `<div class="cut-img"><img loading="lazy" src="${url}" alt="cut ${i+1}" `+
+      `<div class="cut-img"><img src="${url}" alt="cut ${i+1}" `+
       `onerror="this.parentNode.innerHTML='<div class=\\'img-fail\\'>이미지 로드 실패 (네트워크 차단). 그림 스타일을 SVG로 바꿔보세요.</div>'"></div>`+
       `<div class="cut-cap"><p class="en">${c.en||''}</p><p class="ko">${c.ko||''}</p></div></div>`;
   }).join('')+`</div>`;
@@ -903,7 +903,7 @@ async function toonPuterHTML(cuts, host){
     const usePoll = ()=>{
       slot.innerHTML='';
       const img=document.createElement('img');
-      img.loading='lazy'; img.src=pollImg(cuts[i].prompt||cuts[i].en||'', 1000+i); img.alt='cut '+(i+1);
+      img.src=pollImg(cuts[i].prompt||cuts[i].en||'', 1000+i); img.alt='cut '+(i+1);
       img.onerror=()=>{ slot.innerHTML=''; const d=document.createElement('div'); d.className='img-fail'; d.textContent='이미지 로드 실패. 그림 스타일을 SVG로 바꿔보세요.'; slot.appendChild(d); };
       slot.appendChild(img);
     };
@@ -912,7 +912,7 @@ async function toonPuterHTML(cuts, host){
       const dataUrl = await geminiTxt2Img(styled);
       slot.innerHTML='';
       const img=document.createElement('img');
-      img.loading='lazy'; img.src=dataUrl; img.alt='cut '+(i+1);
+      img.src=dataUrl; img.alt='cut '+(i+1);
       slot.appendChild(img);
     }catch(e){
       usePoll();   // Gemini 실패 시 Pollinations 폴백
@@ -969,11 +969,12 @@ $('analBtn').onclick = async ()=>{
         let mspec = MODE_SPECS[m];
         if(mspec.includes('__GP__')) mspec = mspec.replace('__GP__', gpGuide());
         const r=await callClaude(`[지문]\n${p.text}\n\n[과제] ${mspec}`, SYS_A, 6000);
-        const item={src:p.title, mode:m, name:md.name, html:r.html, expl:r.expl||''};
+        const legend = (m==='trans') ? `<div class="tr-legend"><b style="background:#1d4ed8">주어</b><b style="background:#c026a3">동사</b><b style="background:#047857">목적어</b><b style="background:#b45309">보어</b><b style="background:#6b7280">수식어</b></div>` : '';
+        const itemHtml = legend + r.html;
+        const item={src:p.title, mode:m, name:md.name, html:itemHtml, expl:r.expl||''};
         analItems.push(item);
         const card=document.createElement('div'); card.className='acard';
-        const legend = (m==='trans') ? `<div class="tr-legend"><b style="background:#1d4ed8">주어</b><b style="background:#c026a3">동사</b><b style="background:#047857">목적어</b><b style="background:#b45309">보어</b><b style="background:#6b7280">수식어</b></div>` : '';
-        let inner=`<h4>${md.name} <span style="font-size:11px;color:#9aa39e;font-weight:500">${p.title}</span></h4><div class="abody">${legend}${r.html}</div>`;
+        let inner=`<h4>${md.name} <span style="font-size:11px;color:#9aa39e;font-weight:500">${p.title}</span></h4><div class="abody">${itemHtml}</div>`;
         if(m==='tf' && r.expl) inner+=`<div class="abody tf-exp"><div class="exp-h">▼ 정답 및 해설</div>${r.expl}</div>`;
         card.innerHTML=inner;
         ld.replaceWith(card);
@@ -991,9 +992,27 @@ function ppHead(title, sub){
   return `<div class="pp-head"><div class="eb"><span>${sub}</span><span>유일영수학원</span></div><h2>${title}</h2>
   <div class="pp-name"><span><b>학년·반</b> <span class="ul"></span></span><span><b>이름</b> <span class="ul"></span></span></div></div>`;
 }
-function doPrint(html, withAns){
+function waitImages(root, timeoutMs){
+  const imgs = Array.from(root.querySelectorAll('img'));
+  if(!imgs.length) return Promise.resolve();
+  return Promise.all(imgs.map(img=>{
+    if(img.complete && img.naturalWidth>0) return Promise.resolve();
+    return new Promise(res=>{
+      const fin=()=>{ img.removeEventListener('load',fin); img.removeEventListener('error',fin); res(); };
+      img.addEventListener('load',fin,{once:true});
+      img.addEventListener('error',fin,{once:true});
+      setTimeout(fin, timeoutMs||10000);
+    });
+  }));
+}
+async function doPrint(html, withAns){
   $('printRoot').innerHTML=html;
   if(withAns) document.body.classList.add('print-ans');
+  if($('printRoot').querySelector('img')){
+    document.body.style.cursor='wait';
+    await waitImages($('printRoot'), 10000);
+    document.body.style.cursor='';
+  }
   if(!localStorage.getItem('yuil:printHintShown')){
     alert('인쇄 대화상자에서 날짜·파일경로·페이지번호를 완전히 없애려면\n[추가 설정] → "머리글 및 바닥글" 체크를 해제하세요.\n(이 안내는 다시 표시되지 않습니다)');
     try{ localStorage.setItem('yuil:printHintShown','1'); }catch(e){}
@@ -1013,16 +1032,19 @@ function printGen(withAns){
   }
   doPrint(h, withAns);
 }
-$('printA').onclick=()=>{
-  if(!analItems.length)return;
+function buildAnalysisPrintHTML(items){
   let h = ppHead('영어 지문 분석지','유일영어 문제은행');
-  h += `<div class="pp-cols one">${analItems.map(a=>`<div class="pa-sec"><h4>${a.name} <span style="font-weight:500;font-size:11px;color:#888">${a.src}</span></h4>${a.html}</div>`).join('')}</div>`;
-  const tfEx = analItems.filter(a=>a.mode==='tf' && a.expl);
+  h += `<div class="pp-cols one">${items.map(a=>`<div class="pa-sec"><h4>${a.name} <span style="font-weight:500;font-size:11px;color:#888">${a.src}</span></h4>${a.html}</div>`).join('')}</div>`;
+  const tfEx = items.filter(a=>a.mode==='tf' && a.expl);
   if(tfEx.length){
     h += `<div style="break-before:page"></div>` + ppHead('T/F 정답 및 해설','유일영어 문제은행');
     h += `<div class="pp-cols one">${tfEx.map(a=>`<div class="pa-sec"><h4>${a.src}</h4>${a.expl}</div>`).join('')}</div>`;
   }
-  doPrint(h,false);
+  return h;
+}
+$('printA').onclick=()=>{
+  if(!analItems.length)return;
+  doPrint(buildAnalysisPrintHTML(analItems), false);
 };
 
 /* ════════ 저장 / 내 문제지 ════════ */
@@ -1065,11 +1087,7 @@ function renderMine(){
     };
     row.querySelector('.act-print').onclick=()=>{
       if(s.kind==='q'){ const bak=genItems; genItems=s.items; printGen(false); genItems=bak; }
-      else{
-        let h=ppHead('영어 지문 분석지','유일영어 문제은행');
-        h+=`<div class="pp-cols one">${s.items.map(a=>`<div class="pa-sec"><h4>${a.name}</h4>${a.html}</div>`).join('')}</div>`;
-        doPrint(h,false);
-      }
+      else{ doPrint(buildAnalysisPrintHTML(s.items), false); }
     };
     row.querySelector('.act-del').onclick=async()=>{
       if(!confirm('삭제할까요?'))return;

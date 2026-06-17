@@ -697,6 +697,11 @@ function asciiSafe(s){
   // HTTP 헤더 값은 ISO-8859-1만 허용 → 비라틴/제어문자 제거
   return String(s).replace(/[^\x20-\x7E]/g,'').trim();
 }
+function sanitizeEscapes(s){
+  // JSON에서 허용되지 않는 escape(예: \', \★ 등)를 백슬래시만 제거해 복구
+  // 모델이 작은따옴표(')까지 불필요하게 \\'로 escape하는 경우 대응
+  return s.replace(/\\(.)/g, (m, c) => ('"\\/bfnrtu'.includes(c)) ? m : c);
+}
 async function callClaude(prompt, system, maxTokens){
   const rawKey = $('apiKey').value;
   const key = asciiSafe(rawKey);
@@ -728,8 +733,9 @@ async function callClaude(prompt, system, maxTokens){
       const s=clean.indexOf('{'), e=clean.lastIndexOf('}');
       if(s<0) throw new Error('JSON 형식 응답이 아님');
       const slice = (e>s) ? clean.slice(s,e+1) : clean.slice(s);
-      try{ return JSON.parse(slice); }
-      catch(_){ return JSON.parse(repairJSON(clean.slice(s))); }
+      const safeSlice = sanitizeEscapes(slice);
+      try{ return JSON.parse(safeSlice); }
+      catch(_){ return JSON.parse(repairJSON(sanitizeEscapes(clean.slice(s)))); }
     }catch(err){
       lastErr=err;
       // 네트워크/CORS 류는 재시도 무의미 → 즉시 안내
@@ -867,7 +873,7 @@ function rerenderGen(){
 $('toggleAns').onclick=e=>{document.body.classList.toggle('show-ans');e.target.classList.toggle('on');};
 
 /* ════════ 지문 분석 ════════ */
-const SYS_A = `너는 한국 고등학교 영어 지문 분석 자료 제작 전문가다. 학생 배포용 분석지를 만든다. 설명은 해라체로 작성한다. 반드시 JSON 객체 하나만 출력하며, 줄바꿈·들여쓰기 없이 한 줄로 압축해 출력한다. [중요] HTML 속성값(class=\\"x\\")이 아닌 일반 설명·인용 텍스트에서는 큰따옴표(")를 절대 쓰지 않는다. 지문 내용을 인용하거나 강조할 때는 반드시 작은따옴표(')만 사용한다. 큰따옴표를 쓰면 JSON 문자열이 깨진다.`;
+const SYS_A = `너는 한국 고등학교 영어 지문 분석 자료 제작 전문가다. 학생 배포용 분석지를 만든다. 설명은 해라체로 작성한다. 반드시 JSON 객체 하나만 출력하며, 줄바꿈·들여쓰기 없이 한 줄로 압축해 출력한다. [중요] HTML 속성값(class=\\"x\\")이 아닌 일반 설명·인용 텍스트에서는 큰따옴표(")를 절대 쓰지 않는다. 지문 내용을 인용하거나 강조할 때는 반드시 작은따옴표(')만 사용한다. 큰따옴표를 쓰면 JSON 문자열이 깨진다. 작은따옴표(')와 영어 단어 안의 어퍼스트로피(예: doesn't, it's)는 JSON에서 escape가 필요 없다 — 백슬래시(\\) 없이 그냥 그대로 써라. 백슬래시(\\)는 절대 사용하지 마라.`;
 const SYS_TOON = `너는 영어 지문을 4컷 만화로 요약하는 전문 일러스트레이터다. 막대 인물이나 단순 도형이 아니라, 입체감과 음영이 있는 사실적인 벡터 일러스트를 인라인 SVG로 그린다. 다음을 적극 활용한다: 선형 그라데이션(linearGradient)과 방사형 그라데이션(radialGradient)으로 명암·하늘·빛 표현, 겹치는 도형으로 원근감, 부드러운 그림자(타원형 ellipse를 반투명 검정으로), 풍부한 배경(지평선·건물·나무·실내 가구 등), 사람은 머리·몸통·팔다리·표정(눈·눈썹·입)을 갖춘 형태로 비례 있게, 사물은 디테일(질감선·하이라이트)을 살려 그린다. 전체적으로 따뜻하고 깔끔한 교과서 삽화 또는 그림책 톤을 유지한다. 지문의 흐름(도입→전개→전환/예시→결론)을 4개의 장면으로 압축한다. 각 컷에는 영어 한 줄 캡션과 한국어 한 줄 설명을 넣는다. 반드시 JSON 객체 하나만, 줄바꿈 없이 한 줄로 압축해 출력한다.`;
 const SYS_TOON_AI = `너는 영어 지문을 4컷 만화로 시각화하기 위한 장면 기획자다. 각 컷마다, 사실적인 일러스트 이미지 생성 모델에 넣을 영어 이미지 프롬프트(image prompt)를 만든다. 프롬프트는 장면·인물·배경·분위기·구도를 묘사하는 영어 명사구 나열로 25단어 내외, 사진풍이 아니라 따뜻한 디지털 일러스트/그림책 삽화 스타일을 명시한다. 지문 흐름(도입→전개→전환/예시→결론)을 4장면으로 압축한다. 반드시 JSON 하나만 한 줄로 출력한다.`;
 function toonAiSpec(){

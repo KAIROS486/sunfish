@@ -79,6 +79,22 @@ main{overflow-y:auto;padding:22px}
 .tcard.on{background:var(--green-soft);border-color:var(--green)}
 .tcard input{accent-color:var(--green)}
 .tcard .cat{font-size:10px;font-weight:800;color:#fff;border-radius:4px;padding:2px 5px}
+/* 지문별 계획표 */
+.plan-wrap{margin-bottom:14px;border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.plan-head{background:var(--chip);padding:8px 14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;border-bottom:1px solid var(--rule)}
+.plan-head span{flex:1}
+.plan-head button{font-size:11.5px}
+.plan-table{width:100%;border-collapse:collapse;font-size:12px}
+.plan-table th,.plan-table td{padding:6px 8px;border-bottom:1px solid var(--rule);vertical-align:middle}
+.plan-table th{background:#f7f8f6;font-weight:700;text-align:left;font-size:11.5px;color:#555;white-space:nowrap}
+.plan-table td{text-align:center}
+.plan-table td.ptitle{text-align:left;font-size:11.5px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plan-table tr:last-child td,.plan-table tr:last-child th{border-bottom:none}
+.plan-table input[type=checkbox]{accent-color:var(--green);width:14px;height:14px}
+.plan-table select{font-size:11px;padding:1px 2px;border:1px solid var(--rule);border-radius:4px;background:#fff}
+/* 문제 섹션 헤더 */
+.q-sec-head{background:var(--green-soft);border:1px solid #b3cebc;border-radius:8px;padding:8px 14px;margin:16px 0 8px;display:flex;align-items:center;gap:8px;font-weight:800;font-size:13.5px;color:var(--green-d)}
+.q-sec-head .qcnt{font-weight:500;font-size:11.5px;color:var(--gray);margin-left:auto}
 .catA{background:#7a5ec4}.catB{background:#2c7fb8}.catC{background:#1c6b4a}.catD{background:#c46a1f}
 .numsel{margin-left:auto;border:1px solid var(--rule);border-radius:5px;font-size:12px;padding:2px;font-family:inherit}
 
@@ -124,6 +140,7 @@ body.show-ans .ans-circle{display:inline-block}
 .abody .tr .ic .en{font-size:13px}
 .abody .tr .ic .ko{font-size:11px;color:var(--green-d);margin-top:1px}
 .abody .tr .ic .tag{font-size:9.5px;color:#9aa39e;font-style:italic;margin-top:1px}
+.abody .tr .ic:not(:last-child) .en::after{content:'/';margin-left:3px;color:#9aa39e;font-weight:700}
 .abody .tr .su{color:#1d4ed8;font-weight:700}
 .abody .tr .v{color:#c026a3;font-weight:700}
 .abody .tr .o{color:#047857;font-weight:700}
@@ -144,6 +161,8 @@ body.show-ans .ans-circle{display:inline-block}
 .toon .cut-img svg{width:100%;height:auto;max-height:260px;display:block}
 .toon .cut-img img{width:100%;height:auto;display:block;border-radius:0}
 .toon .img-fail{padding:24px 12px;font-size:11.5px;color:var(--gray);text-align:center;line-height:1.6}
+.toon .toon-retry{margin-top:6px;padding:4px 10px;font-size:11px;border:1px solid #cbd5c9;border-radius:6px;background:#fff;color:#374151;cursor:pointer}
+.toon .toon-retry:hover{background:#f1f5f1}
 .toon-note{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:8px;padding:9px 12px;font-size:12px;line-height:1.55;margin-bottom:10px}
 .toon .cut-cap{padding:8px 10px;border-top:1px solid var(--rule)}
 .toon .cut-cap .en{font-family:'Noto Serif KR',Georgia,serif;font-size:12px;line-height:1.4}
@@ -162,59 +181,94 @@ body.show-ans .ans-circle{display:inline-block}
 
 /* ── 인쇄용 시험지 ── */
 #printRoot{display:none}
+@page{size:A4;margin:12mm 11mm 10mm}
 @media print{
-  @page{size:A4;margin:0}
   body>*{display:none!important}
-  body{background:#fff}
-  #printRoot{display:block!important;padding:13mm 11mm}
-  .pp-head{border-bottom:3px double var(--ink);padding-bottom:12px;margin-bottom:10px}
-  .pp-head .eb{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#555}
-  .pp-head h2{text-align:center;font-size:23px;font-weight:900;margin:8px 0 4px}
-  .pp-name{display:flex;justify-content:flex-end;gap:16px;font-size:12px;margin-top:6px}
-  .pp-name .ul{display:inline-block;width:85px;border-bottom:1px solid #555}
-  .pp-cols{column-count:2;column-gap:32px;column-rule:1px solid var(--rule)}
-  .pp-cols.one{column-count:1}
-  .pq{break-inside:avoid;margin-bottom:20px;font-size:12.4px}
-  .pq .qp{font-weight:800;margin-bottom:6px;line-height:1.5}
-  .pq .qbox,.pq .qsum{border:1.5px solid var(--ink);padding:8px 10px;margin:7px 0;line-height:1.6}
-  .pq .qbody{line-height:1.64;text-align:justify;margin:5px 0}
-  .pq ol{list-style:none;margin-top:6px}
-  .pq ol li{line-height:1.6;padding:1px 0;position:relative}
-  .pq ol li .m{font-weight:600;margin-right:5px}
-  body.print-ans .ans-circle{display:inline-block}
-  .pexp{break-inside:avoid;margin-bottom:11px;font-size:12px;line-height:1.62}
-  .pexp b{color:var(--red)}
-  .pa-sec{break-inside:avoid;margin-bottom:16px;font-size:12.3px;line-height:1.7}
-  .pa-sec h4{font-size:13.5px;font-weight:800;border-left:4px solid var(--ink);padding-left:8px;margin-bottom:7px}
-  .pa-sec table{border-collapse:collapse;width:100%}
-  .pa-sec td,.pa-sec th{border:1px solid #ccc;padding:5px 8px;font-size:11.8px;vertical-align:top}
-  .pa-sec th{background:#f1f1ee}
-  .pa-sec .tr{margin:0 0 6px}
-  .pa-sec .tr .il{display:flex;flex-wrap:wrap;align-items:flex-start;gap:1px 6px;font-family:'Noto Serif KR',Georgia,serif}
-  .pa-sec .tr .ic{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1.2;margin:0 6px 2px 0}
-  .pa-sec .tr .ic .en{font-size:11px}
-  .pa-sec .tr .ic .ko{font-size:9.3px;color:#1c6b4a;margin-top:0}
-  .pa-sec .tr .ic .tag{font-size:8px;color:#888;font-style:italic;margin-top:0}
-  .pa-sec .tr .su{color:#1d4ed8;font-weight:700}
-  .pa-sec .tr .v{color:#c026a3;font-weight:700}
-  .pa-sec .tr .o{color:#047857;font-weight:700}
-  .pa-sec .tr .c{color:#b45309;font-weight:700}
-  .pa-sec .tr .mod{color:#555}
-  .pa-sec .tr .gp{color:#9f1239;font-weight:700}
-  .pa-sec ol.tf,.pa-sec ol.tfans{margin-left:16px;line-height:1.85}
-  .pa-sec ol.tf li,.pa-sec ol.tfans li{font-size:11.8px}
-  .pa-sec .tfbox{font-weight:700;margin-left:6px}
-  .pa-sec ol.tfans b{color:#000;text-decoration:underline}
-  .pa-sec .toon{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;break-inside:avoid}
-  .pa-sec .toon .cut{border:1px solid #ccc;border-radius:8px;overflow:hidden;break-inside:avoid}
-  .pa-sec .toon .cut-img svg{width:100%;height:auto;max-height:210px}
-  .pa-sec .toon .cut-img img{width:100%;height:auto;display:block}
-  .pa-sec .toon .cut-cap{padding:5px 7px;border-top:1px solid #ddd}
-  .pa-sec .toon .cut-cap .en{font-size:11px}
-  .pa-sec .toon .cut-cap .ko{font-size:10.5px;color:#1c6b4a}
-  .pa-sec .toon .cut-no{position:absolute;top:4px;left:4px;width:16px;height:16px;background:#1c6b4a;color:#fff;border-radius:50%;font-size:10px;display:flex;align-items:center;justify-content:center}
-  .pa-sec .toon .cut{position:relative}
+  body{background:#fff!important;color:#000!important}
+  #printRoot{display:block!important;padding:0;background:#fff}
+  /* 색상 보존 */
+  .pa-sec .tr .su{color:#1d4ed8!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pa-sec .tr .v{color:#c026a3!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pa-sec .tr .o{color:#047857!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pa-sec .tr .c{color:#b45309!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pa-sec .tr .gp{color:#9f1239!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pa-sec .tr .ko{color:#1c6b4a!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pa-sec th{background:#f1f1ee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .toon .cut-no{background:#1c6b4a!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
+#printRoot.show{display:block!important;position:fixed;left:-9999px;top:0;width:188mm;z-index:-1}
+#printRoot{background:#fff}
+/* 헤더 */
+.pp-head{border-bottom:3px double #111;padding-bottom:8px;margin-bottom:10px}
+.pp-head .eb{display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:#555}
+.pp-head h2{text-align:center;font-size:21px;font-weight:900;margin:6px 0 3px}
+.pp-name{display:flex;justify-content:flex-end;gap:16px;font-size:11.5px;margin-top:5px}
+.pp-name .ul{display:inline-block;width:80px;border-bottom:1px solid #555}
+/* 컬럼 */
+.pp-cols{column-count:2;column-gap:20px;column-rule:1px solid #d0d0cc}
+.pp-cols.one{column-count:1}
+.pa-sec.wide{column-span:all}
+/* 분석 섹션 공통 */
+.pa-sec{break-inside:avoid;margin-bottom:9px;font-size:11.5px;line-height:1.52}
+.pa-sec h4{font-size:12.5px;font-weight:800;border-left:4px solid #111;padding-left:6px;margin-bottom:5px;line-height:1.3}
+.pa-sec h4 span{font-weight:500;font-size:10.5px;color:#888}
+/* 직독직해 */
+.pa-sec .tr{margin:0 0 4px}
+.pa-sec .tr .il{display:flex;flex-wrap:wrap;align-items:flex-start;gap:1px 4px;font-family:'Noto Serif KR',Georgia,serif}
+.pa-sec .tr .ic{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1.15;margin:0 4px 2px 0}
+.pa-sec .tr .ic .en{font-size:10.8px}
+.pa-sec .tr .ic .ko{font-size:8.8px;color:#1c6b4a;margin-top:0}
+.pa-sec .tr .ic .tag{font-size:7.5px;color:#888;font-style:italic;margin-top:0}
+.pa-sec .tr .ic:not(:last-child) .en::after{content:'/';margin-left:2px;color:#9aa3ad;font-weight:700}
+.pa-sec .tr .su{color:#1d4ed8;font-weight:700}
+.pa-sec .tr .v{color:#c026a3;font-weight:700}
+.pa-sec .tr .o{color:#047857;font-weight:700}
+.pa-sec .tr .c{color:#b45309;font-weight:700}
+.pa-sec .tr .mod{color:#555}
+.pa-sec .tr .gp{color:#9f1239;font-weight:700}
+/* 어휘 표 */
+.pa-sec table{border-collapse:collapse;width:100%;font-size:10.8px}
+.pa-sec td,.pa-sec th{border:1px solid #ccc;padding:3px 6px;vertical-align:top;line-height:1.4}
+.pa-sec th{background:#f1f1ee;font-size:10.5px}
+/* T/F */
+.pa-sec ol.tf,.pa-sec ol.tfans{margin-left:14px;line-height:1.65;margin-bottom:4px}
+.pa-sec ol.tf li,.pa-sec ol.tfans li{font-size:11px;margin-bottom:2px}
+.pa-sec .tfbox{font-weight:700;margin-left:5px}
+.pa-sec ol.tfans b{color:#000;text-decoration:underline}
+.pa-sec .tf-expl-block{margin-top:6px;padding:6px 8px;border:1px solid #d5d5d0;border-radius:5px;font-size:10.8px;line-height:1.5;background:#fafafa}
+.pa-sec .tf-expl-block h5{font-size:11px;font-weight:800;margin:0 0 4px;border-bottom:1px solid #ddd;padding-bottom:3px}
+/* 4컷만화 */
+.pa-sec .toon{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;break-inside:avoid}
+.pa-sec .toon .cut{border:1px solid #ccc;border-radius:6px;overflow:hidden;break-inside:avoid;position:relative}
+.pa-sec .toon .cut-img svg{width:100%;height:auto;max-height:120px}
+.pa-sec .toon .cut-img img{width:100%;height:auto;display:block;max-height:120px;object-fit:cover}
+.pa-sec .toon .cut-cap{padding:3px 4px;border-top:1px solid #ddd}
+.pa-sec .toon .cut-cap .en{font-size:9px;line-height:1.25}
+.pa-sec .toon .cut-cap .ko{font-size:8.5px;color:#1c6b4a;line-height:1.25}
+.pa-sec .toon .cut-no{position:absolute;top:3px;left:3px;width:13px;height:13px;background:#1c6b4a;color:#fff;border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center}
+/* 문제지 */
+.pq{break-inside:avoid;margin-bottom:9px;font-size:11.8px}
+.pq .qp{font-weight:800;margin-bottom:3px;line-height:1.38;font-size:12px}
+.pq .qbox,.pq .qsum{border:1.5px solid #111;padding:5px 7px;margin:4px 0;line-height:1.48;font-size:11.5px}
+.pq .qbody{line-height:1.52;text-align:justify;margin:3px 0;font-size:11.5px}
+.pq ol{list-style:none;margin-top:3px;padding-left:2px}
+.pq ol li{line-height:1.46;padding:1px 0;font-size:11.5px}
+.pq ol li .m{font-weight:600;margin-right:4px}
+body.print-ans .ans-circle{display:inline-block}
+.pexp{break-inside:avoid;margin-bottom:6px;font-size:11.5px;line-height:1.48}
+.pexp b{color:#c0392b}
+.ans-summary{margin-bottom:14px;break-inside:avoid}
+.sort-toggle{display:inline-flex;border:1.5px solid var(--green);border-radius:20px;overflow:hidden;gap:0}
+.sort-toggle button{border:none;background:#fff;padding:5px 14px;font-size:12.5px;font-weight:600;color:var(--green);cursor:pointer;line-height:1}
+.sort-toggle button.on{background:var(--green);color:#fff}
+.ans-table{border-collapse:collapse;width:100%;table-layout:fixed;font-size:12px;margin-bottom:8px}
+.ans-table th,.ans-table td{border:1.5px solid #aaa;padding:6px 2px;text-align:center;vertical-align:middle}
+.ans-table th{background:#1c6b4a;color:#fff;font-weight:700;font-size:11.5px}
+.ans-table td{font-weight:900;font-size:15px;color:#1c3a4a}
+.ans-badge{display:inline-block;background:#1c6b4a;color:#fff;border-radius:50%;width:17px;height:17px;font-size:11px;font-weight:800;text-align:center;line-height:17px;vertical-align:middle;margin:0 3px}
+.gp-hint{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.gp-tag{font-size:10.5px;background:#f0f4f1;border:1px solid #c8d9cc;border-radius:12px;padding:2px 8px;color:#374151}
+.gp-tag.gp-ans{background:#fff3cd;border-color:#e8bb30;color:#7a4f00;font-weight:700}
 @media (max-width:900px){.wrap{grid-template-columns:1fr;height:auto}aside{max-height:44vh}}
 dialog{border:none;border-radius:14px;padding:22px;width:min(560px,92vw);box-shadow:0 8px 40px rgba(0,0,0,.25)}
 dialog::backdrop{background:rgba(20,30,25,.45)}
@@ -277,6 +331,17 @@ dialog .row{display:flex;gap:8px;justify-content:flex-end}
       </h3>
       <div class="typegrid" id="typeGrid"></div>
     </div>
+    <!-- 지문별 출제 계획 -->
+    <div class="sec" id="planSec" style="display:none">
+      <div class="plan-wrap">
+        <div class="plan-head">
+          <span>📋 지문별 출제 계획</span>
+          <button class="tool" id="planApplyAll">전체 적용</button>
+          <button class="tool" id="planReset">기본값으로</button>
+        </div>
+        <div id="planTableWrap"></div>
+      </div>
+    </div>
     <div class="sec" id="gpSec">
       <h3>어법 출제 포인트 <span style="font-weight:500;color:#9aa39e">— 어법 유형 선택 시 적용 · 미선택 시 기출 빈출 포인트 자동 출제 (어법끝 ESSENTIAL 34 Testing Points 기반)</span></h3>
       <div class="chips" id="gpChips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
@@ -284,6 +349,10 @@ dialog .row{display:flex;gap:8px;justify-content:flex-end}
     <div class="bar">
       <span class="info" id="genInfo">선택 지문 <b>0</b>개</span>
       <span class="spacer" style="flex:1"></span>
+      <div class="sort-toggle">
+        <button id="sortPassage" class="on">📄 지문별</button>
+        <button id="sortType">📝 유형별</button>
+      </div>
       <button class="btn btn-line" id="toggleAns">정답·해설 보기</button>
       <button class="btn btn-go" id="genBtn">문제 생성</button>
     </div>
@@ -508,9 +577,59 @@ function selectedPassages(){
   });
 })();
 function updateInfo(){
-  const n = selectedPassages().length;
-  $('genInfo').innerHTML = `선택 지문 <b>${n}</b>개 · 생성 문제 <b>${genItems.length}</b>개`;
-  $('analInfo').innerHTML = `선택 지문 <b>${n}</b>개`;
+  const ps = selectedPassages();
+  $('genInfo').innerHTML = `선택 지문 <b>${ps.length}</b>개 · 생성 문제 <b>${genItems.length}</b>개`;
+  $('analInfo').innerHTML = `선택 지문 <b>${ps.length}</b>개`;
+  renderPlanTable();
+}
+
+/* 지문별 계획표 렌더링 */
+const passPlan = {}; // {passageId: {typeId: count}}
+function getDefaultPicked(){
+  return [...$('typeGrid').querySelectorAll('.tcard')].filter(c=>c.querySelector('input').checked)
+    .map(c=>({id:c.dataset.t, n:+c.querySelector('select').value}));
+}
+function renderPlanTable(){
+  const ps = selectedPassages();
+  const $sec = $('planSec');
+  if(!$sec) return;
+  if(ps.length < 2){ $sec.style.display='none'; return; }
+  $sec.style.display='';
+  const defaults = getDefaultPicked();
+  let html = `<div style="overflow-x:auto"><table class="plan-table"><thead><tr><th style="min-width:130px">지문</th>`;
+  TYPES.forEach(t=>{ html+=`<th title="${t.name}"><span class="cat cat${t.cat}" style="font-size:9px">${t.cat}</span><br><span style="font-size:10px">${t.name.replace(/\s*\(.*\)/,'')}</span></th>`; });
+  html+=`</tr></thead><tbody>`;
+  ps.forEach(p=>{
+    const plan = passPlan[p.id];
+    html+=`<tr><td class="ptitle" title="${p.title}">${p.title}</td>`;
+    TYPES.forEach(t=>{
+      const def = defaults.find(d=>d.id===t.id);
+      const pEntry = plan?.[t.id];
+      const checked = plan ? !!pEntry : !!def;
+      const cnt = pEntry || (def?def.n:1);
+      html+=`<td><input type="checkbox" data-pid="${p.id}" data-tid="${t.id}" ${checked?'checked':''}><select data-pid="${p.id}" data-tid="${t.id}" style="display:${checked?'':'none'}">${[1,2,3].map(n=>`<option ${cnt===n?'selected':''}>${n}</option>`).join('')}</select></td>`;
+    });
+    html+=`</tr>`;
+  });
+  html+=`</tbody></table></div>`;
+  $('planTableWrap').innerHTML=html;
+  $('planTableWrap').querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    const sel=cb.parentElement.querySelector('select');
+    cb.onchange=()=>{
+      sel.style.display=cb.checked?'':'none';
+      savePlanEntry(cb.dataset.pid, cb.dataset.tid, cb.checked, +sel.value);
+    };
+    sel.onchange=e=>savePlanEntry(cb.dataset.pid, cb.dataset.tid, true, +e.target.value);
+  });
+}
+function savePlanEntry(pid, tid, checked, n){
+  if(!passPlan[pid]) passPlan[pid]={};
+  if(checked) passPlan[pid][tid]=n; else delete passPlan[pid][tid];
+}
+function getPassagePick(p){
+  const plan=passPlan[p.id];
+  if(plan){ return TYPES.map(t=>({id:t.id,n:plan[t.id]||0})).filter(x=>x.n>0); }
+  return getDefaultPicked();
 }
 $('pSelAll').onclick=()=>{
   const lessons = DB[curBook]||{};
@@ -573,7 +692,7 @@ function renderGPChips(){
 }
 function gpGuide(){
   const pool = selGP.size ? [...selGP].map(i=>GRAMMAR_POINTS[i]) : GRAMMAR_POINTS.filter(g=>g.w>=3);
-  return pool.map(g=>`- ${g.n} (기출빈도 ${'★'.repeat(g.w)}): ${g.how}`).join('\n');
+  return pool.map(g=>`- [${g.n}] (빈도 ${'★'.repeat(g.w)}) 오류삽입법: ${g.how}`).join('\n');
 }
 function renderTypeGrid(){
   $('typeGrid').innerHTML = TYPES.map(t=>`
@@ -755,7 +874,9 @@ const SYS_Q = `너는 한국 고등학교 영어 내신 변형문제 출제 전�
 2. 발문은 "다음 글"로 시작한다. "윗글"이라는 표현은 쓰지 않는다.
 3. 해설(expl)은 해라체로 작성한다. (예: "~이다.", "~해야 한다.", "따라서 정답은 ②이다.")
 4. 선택지는 정확히 5개. answer는 1~5 정수.
-5. 반드시 JSON 객체 하나만 출력한다. 다른 텍스트, 마크다운 금지. JSON은 줄바꿈·들여쓰기 없이 한 줄로 압축해 출력한다.`;
+5. 반드시 JSON 객체 하나만 출력한다. 다른 텍스트, 마크다운 금지. JSON은 줄바꿈·들여쓰기 없이 한 줄로 압축해 출력한다.
+6. [원문 불변 원칙] body와 box에 넣는 지문은 원문의 단어·어순·문장구조를 절대 바꾸지 말 것. 유형에 따라 최소한의 표시(밑줄·네모·번호·삽입 표시)만 허용하며, 그 외 paraphrase·요약·재작성은 엄금한다.`;
+
 
 const SUNGSIL_STYLE = `[수능실감 공통 출제 원칙 — 2027 수능 출제 경향]
 1. 정답의 근거는 지문의 일부 문장이 아니라 전체 논리 흐름(대의 + 뒷받침 구조)에서 도출되게 하라. 일부만 읽고 풀 수 있는 문제는 만들지 않는다.
@@ -765,23 +886,71 @@ const SUNGSIL_STYLE = `[수능실감 공통 출제 원칙 — 2027 수능 출제
 5. expl(해설)은 ① 전체 흐름 요약과 정답 근거 → ② 매력 오답 2~3개가 정답이 될 수 없는 이유 순으로 해라체 서술.`;
 
 const TYPE_SPECS = {
- 'grammar-u':  {prompt:'다음 글의 밑줄 친 부분 중, 어법상 틀린 것은?', spec:`수능 밑줄 어법 출제 방식을 따른다.
-[출제 포인트 목록 — 아래에서 서로 다른 5개를 골라 각 밑줄에 1개씩 배정하라]
+ 'grammar-u':  {prompt:'다음 글의 밑줄 친 부분 중, 어법상 틀린 것은?', spec:`수능 밑줄 어법 5지선다. 출제 확률 높은 포인트(빈도 ★★★★★·★★★★ 우선 선택) 기반으로 출제한다.
+
+[어법 포인트 목록 — 포인트명과 오류삽입법을 확인하고 정확히 따라 변환하라]
 __GP__
-[작성 규칙]
-1. 지문 속 서로 다른 5곳을 <u>①표현</u> 형태(번호+밑줄 HTML, 표현은 1~4단어)로 표시한다.
-2. 그중 정확히 1곳만 배정된 포인트에 따라 원문과 다른 틀린 형태로 바꾼다. 나머지 4곳은 원문 그대로 두되 해당 포인트의 판단 대상이 되도록 고른다.
-3. 밑줄만 보고 풀 수 없고 문장 구조와 해석을 따져야 풀리도록, 주어-동사 사이 수식어 삽입·병렬 연결 거리 등 함정 요소를 포함하라.
-4. expl은 정답 포인트명을 밝히고 왜 틀렸으며 무엇으로 고쳐야 하는지 서술한 뒤, 나머지 4개 선지가 옳은 이유를 ①~⑤ 번호별로 짧게 덧붙여라(해라체).
-body에 표시된 전체 지문을 넣고, choices는 ["①","②","③","④","⑤"]로.`},
- 'grammar-abc':{prompt:'(A), (B), (C)의 각 네모 안에서 어법에 맞는 표현으로 가장 적절한 것은?', spec:`수능 네모 어법 출제 방식을 따른다.
-[출제 포인트 목록 — 서로 다른 3개를 골라 (A)(B)(C)에 1개씩 배정하라]
+
+[밑줄 선정 원칙]
+- 관계사(which/where/who/what), 접속사(that/whether), 동사 형태(p.p./v-ing/to-v/원형), 대명사(it/them/its/their), 형용사/부사 혼동 등 문법 기능어·형태 위주로 밑줄을 선택한다.
+- 단독 명사·형용사·부사 1단어만으로 어휘 의미 판단이 되는 항목은 밑줄 대상에서 제외한다 (어휘 문제와 혼동 방지).
+- 어법 판단에 문장 전체 구조 파악이 필요하도록 설계한다.
+
+[출제 절차 — 반드시 순서대로 수행]
+STEP1 포인트 배정
+  ①~⑤에 서로 다른 포인트 1개씩 배정. 정답 번호(1~5) 결정.
+  출력형식 → "①[포인트], ②[포인트], ③[포인트](정답), ④[포인트], ⑤[포인트]"
+
+STEP2 오류 삽입 (핵심 단계)
+  정답 위치의 원문 표현을 포인트의 "오류삽입법"에 따라 실제로 변환한다.
+  출력형식 → "원문: [원문표현] / 교체: [틀린형태] / 이유: [어떤 규칙 위반]"
+  ※ 원문표현 ≠ 교체표현 이어야 한다. 같으면 다른 위치를 선택.
+  변환 예시:
+    능동/수동: drawn(p.p.) → drawing(v-ing)  |  shared → sharing
+    수일치: remains(단수) → remain(복수)
+    관계사: which → where  |  where → which  |  that → what
+    준동사: hitting → to hit  |  to form → forming
+    형/부사: careful → carefully  |  carefully → careful
+
+STEP3 body 작성
+  원문 전체를 그대로 쓰되 5개 위치에만 <u>번호표현</u> 삽입.
+  정답 위치: STEP2 교체표현. 나머지 4곳: 원문 그대로.
+  [번호 연속성 절대 규칙] ①②③④⑤ 다섯 개가 반드시 모두 존재해야 한다. ③이 빠지거나 ①①②④⑤처럼 중복되면 절대 안 된다. body 작성 후 ①~⑤ 각 번호가 정확히 1번씩 나타나는지 자가검증 후 출력하라.
+
+STEP4 JSON 출력
+{
+  "prompt":"다음 글의 밑줄 친 부분 중, 어법상 틀린 것은?",
+  "body":"[STEP3 지문]",
+  "choices":["①","②","③","④","⑤"],
+  "points":["①포인트명","②포인트명","③포인트명(정답)","④포인트명","⑤포인트명"],
+  "answer":[정답번호 정수],
+  "expl":"정답 [번호]: '[원문]'을 '[교체]'으로 잘못 씀. [포인트명] 오류: [이유·교정]. ①~⑤ 각 옳은 이유 한 줄(해라체)"
+}`},
+ 'grammar-abc':{prompt:'(A), (B), (C)의 각 네모 안에서 어법에 맞는 표현으로 가장 적절한 것은?', spec:`수능 네모 어법 3지점 5지선다. 출제 확률 높은 포인트(빈도 ★★★★★·★★★★ 우선) 활용.
+[포인트 목록]
 __GP__
-지문 속 3곳을 (A)[옳은형 / 틀린형] 식 네모 선택으로 바꿔 body에 넣어라. 두 선택지는 해당 포인트의 전형적 대립쌍이어야 한다. choices는 "x - y - z" 형태 5개 조합(정답 조합 1개 포함). expl은 (A)(B)(C) 각각의 포인트명과 판단 근거를 해라체로 서술하라.`},
- 'vocab-u':    {prompt:'다음 글의 밑줄 친 부분 중, 문맥상 낱말의 쓰임이 적절하지 않은 것은?', spec:`지문 속 5개 단어를 <u>①단어</u>로 표시하고 1개만 문맥상 반의어/부적절어로 교체하라. body에 전체 지문. choices는 ["①","②","③","④","⑤"].`},
- 'vocab-abc':  {prompt:'(A), (B), (C)의 각 괄호 안에서 문맥에 맞는 낱말로 가장 적절한 것은?', spec:`3곳을 (A)[적절어 / 반의어] 괄호로 바꿔 body에. choices는 "x - y - z" 5개 조합.`},
- 'match-x': {prompt:'다음 글의 내용과 일치하지 않는 것은?', spec:`body에 원문 지문 그대로. choices는 한국어 진술 5개를 지문 정보 등장 순서대로 배열하고, 1개만 세부 정보(수치·주체·인과·시점)를 미묘하게 비틀어 불일치로 만든다. 단순 부정이 아니라 그럴듯한 변형이어야 한다.`},
- 'match-o': {prompt:'다음 글의 내용과 일치하는 것은?', spec:`body에 원문 그대로. choices는 한국어 진술 5개를 지문 순서대로 배열, 1개만 일치. 오답 4개는 지문 표현을 재활용하되 세부 정보를 비틀어라.`},
+[출제 절차]
+STEP1: (A)(B)(C) 각각에 포인트 1개씩 배정(서로 다른 3개). 각 포인트의 오류삽입법 확인.
+STEP2: 원문 해당 위치 표현을 찾아 "옳은형 / 틀린형" 두 선택지 결정.
+  - 옳은형: 원문 그대로의 문법적으로 맞는 형태
+  - 틀린형: 오류삽입법에 따라 실제로 변환한 틀린 형태 (원문과 달라야 함)
+  출력형식: "(A) 원문:[표현] → 옳은형:[표현] / 틀린형:[표현]"
+STEP3: body에 3곳을 (A)[옳은형 / 틀린형] 형태 네모로 교체 (원문 나머지는 그대로).
+  [ABC 순서 규칙] (A)는 지문에서 가장 먼저 등장, (B)는 두 번째, (C)는 세 번째 순서여야 한다. 반드시 지문 등장 순서대로 A→B→C를 배치하라.
+  [전치사 중복 방지] 네모 바로 앞에 전치사(in, on, at, of, to, for, with 등)가 이미 있으면, 선택지에 그 전치사를 포함한 형태를 넣지 말라. 예: 앞에 "in"이 있으면 [which / in which]가 아니라 [which / that]으로 구성하라.
+STEP4: choices는 "x-y-z" 형태 5개 조합(정답 1개 포함). answer는 정답 조합 번호(1~5).
+expl: (A)(B)(C) 각각 포인트명·정답형태·이유 명시(해라체).`},
+ 'vocab-u':    {prompt:'다음 글의 밑줄 친 부분 중, 문맥상 낱말의 쓰임이 적절하지 않은 것은?', spec:`수능 밑줄 어휘 5지선다 문제를 출제한다.
+[절대 규칙]
+① body에 지문 전체를 넣고 서로 다른 5개 단어·어구를 <u>①단어</u>~<u>⑤단어</u> 형태로 표시한다. 밑줄은 반드시 정확히 5개. [번호 연속성 절대 규칙] ①②③④⑤가 각각 정확히 1번씩 나타나야 한다. ③이 빠지거나 번호가 중복되면 절대 안 된다. 자가검증 필수.
+② 5개 중 1개만 문맥상 반의어 또는 부적절어로 교체한다(원문 단어→반의어). 나머지 4개는 원문 그대로 유지.
+③ answer는 틀린 밑줄 번호 정수(1~5). null·0 절대 불가.
+④ choices는 반드시 ["①","②","③","④","⑤"] 고정 — 단어 텍스트를 choices에 넣지 말 것. 지문 내 번호 표시로 충분하다.
+⑤ 자가검증: body의 밑줄 5개 확인 → 틀린 것 1개 확인 → answer가 그 번호인지 확인 후 출력.
+expl은 정답 단어가 왜 문맥상 부적절한지, 원래 어떤 단어여야 하는지 설명하고 나머지 4개가 적절한 이유를 간략히 서술(해라체).`},
+ 'vocab-abc':  {prompt:'(A), (B), (C)의 각 괄호 안에서 문맥에 맞는 낱말로 가장 적절한 것은?', spec:`3곳을 (A)[적절어 / 반의어] 괄호로 바꿔 body에. [ABC 순서 규칙] (A)는 지문에서 가장 먼저 등장, (B)는 두 번째, (C)는 세 번째여야 한다. 반드시 지문 등장 순서대로 A→B→C를 배치하라. choices는 "x - y - z" 5개 조합.`},
+ 'match-x': {prompt:'다음 글의 내용과 일치하지 않는 것은?', spec:`body에 원문 지문 그대로. choices는 한국어 진술 5개를 지문 정보 등장 순서대로 배열. [절대 규칙] 정답(불일치)은 반드시 정확히 1개. 나머지 4개는 지문과 100% 일치하는 진술이어야 한다. 1개만 세부 정보(수치·주체·인과·시점)를 미묘하게 비틀어 불일치로 만든다. 단순 부정이 아니라 그럴듯한 변형이어야 한다. answer는 불일치 선지의 번호(1~5 정수, 반드시 1개).`},
+ 'match-o': {prompt:'다음 글의 내용과 일치하는 것은?', spec:`body에 원문 그대로. choices는 한국어 진술 5개를 지문 순서대로 배열. [절대 규칙] 정답(일치)은 반드시 정확히 1개. 나머지 4개는 지문과 불일치하는 오답이어야 한다. 오답 4개는 지문 표현을 재활용하되 세부 정보(수치·주체·인과·시점)를 비틀어라. answer는 일치 선지의 번호(1~5 정수, 반드시 1개).`},
  'imply': {prompt:'밑줄 친 부분이 다음 글에서 의미하는 바로 가장 적절한 것은?', spec:`지문 속 비유적·함축적 어구 하나를 <u>어구</u>로 밑줄 표시해 body에 넣고, prompt를 "다음 글에서 밑줄 친 (어구)가 의미하는 바로 가장 적절한 것은?" 형태로 작성. choices는 영어 5개로, 모두 동사구 형태로 시작을 통일하라.
 선지 형식 예시(실전 모의고사): ① repeat personal contact over and over / ② affect both verbal and nonverbal factors / ③ grasp what the other party intends to say / ④ detect synchronies between verbal elements / ⑤ catch up with nonverbal clues in conversations
 오답은 지문 어휘를 재활용하되 함축 의미의 방향·대상을 어긋나게 하라.`},
@@ -820,40 +989,177 @@ function buildQPrompt(typeId, passage){
 $('genBtn').onclick = async ()=>{
   const ps = selectedPassages();
   if(!ps.length){alert('지문을 선택하거나 직접 입력하세요.');return;}
-  const picked = [...$('typeGrid').querySelectorAll('.tcard')].filter(c=>c.querySelector('input').checked)
-    .map(c=>({id:c.dataset.t, n:+c.querySelector('select').value}));
-  if(!picked.length){alert('출제 유형을 선택하세요.');return;}
   $('genBtn').disabled=true;
   if(genItems.length===0) $('genOut').innerHTML='';
-  for(const p of ps){
-    for(const t of picked){
-      for(let k=0;k<t.n;k++){
-        const ld=document.createElement('div'); ld.className='loading';
-        ld.textContent=`${p.title} · ${TYPES.find(x=>x.id===t.id).name} 생성 중`;
-        $('genOut').appendChild(ld);
-        try{
-          const q = await callClaude(buildQPrompt(t.id,p), SYS_Q);
-          q.type=t.id; q.src=p.title; genItems.push(q);
-          ld.replaceWith(qCardEl(q, genItems.length));
-        }catch(e){
-          ld.outerHTML=`<div class="err"><b>생성 실패</b> — ${p.title} · ${TYPES.find(x=>x.id===t.id).name}<br>${e.message}<br><span style="font-size:12px">Claude.ai 환경이 아니면 우측 상단에 API 키를 입력해야 합니다.</span></div>`;
+
+  async function genOne(typeId, p){
+    const typeName=TYPES.find(x=>x.id===typeId).name;
+    const ld=document.createElement('div'); ld.className='loading';
+    ld.textContent=`[${typeName}] ${p.title} 생성 중`;
+    $('genOut').appendChild(ld);
+    const MAX_RETRY = 2;
+    for(let attempt=0; attempt<=MAX_RETRY; attempt++){
+      try{
+        const q=await callClaude(buildQPrompt(typeId,p), SYS_Q);
+        if(!q.prompt) q.prompt=TYPE_SPECS[typeId]?.prompt||'';
+        // 어법·어휘 밑줄형 검증: 정답 번호 & 선지 5개 & 밑줄 5개 & 번호 연속성
+        if(typeId==='grammar-u' || typeId==='vocab-u'){
+          const uCount=(q.body||'').match(/<u>/g)?.length||0;
+          const choiceOk = q.choices?.length===5;
+          const ansOk = q.answer>=1 && q.answer<=5;
+          // ①~⑤ 각 번호가 정확히 1번씩 존재하는지 확인
+          const CIRCS=['①','②','③','④','⑤'];
+          const seqOk = CIRCS.every(c=>{
+            const re=new RegExp('<u>'+c);
+            return re.test(q.body||'');
+          });
+          // grammar-u 추가 검증: expl에 "→" 또는 "교체" 언급 확인
+          const explOk = typeId!=='grammar-u' || /→|교체|바꿔야|고쳐야|틀린/.test(q.expl||'');
+          if(uCount!==5 || !choiceOk || !ansOk || !seqOk || !explOk){
+            if(attempt<MAX_RETRY){
+              ld.textContent=`[${typeName}] ${p.title} 재생성 중 (밑줄 ${uCount}개, 번호연속 ${seqOk}, 정답 ${q.answer})…`;
+              continue;
+            }
+          }
         }
-        updateInfo();
+        // 내용일치·불일치 검증: 선지 5개 & answer 1~5 정수
+        if(typeId==='match-x' || typeId==='match-o'){
+          const choiceOk = q.choices?.length===5;
+          const ansOk = Number.isInteger(+q.answer) && q.answer>=1 && q.answer<=5;
+          if(!choiceOk || !ansOk){
+            if(attempt<MAX_RETRY){
+              ld.textContent=`[${typeName}] ${p.title} 재생성 중 (선지 ${q.choices?.length}개, 정답 ${q.answer})…`;
+              continue;
+            }
+          }
+        }
+        // 정답 answer 정규화 (문자열→정수, 범위 보정)
+        if(q.answer !== undefined){
+          q.answer = Math.min(5, Math.max(1, parseInt(q.answer,10)||1));
+        }
+        // 정답 분포 균등화: 최근 5문제 정답 번호 추적, 가장 덜 쓰인 번호로 choices 재배열
+        if(q.choices && q.choices.length===5 && q.answer>=1 && q.answer<=5){
+          // 최근 정답 분포 계산
+          const recentN = Math.min(genItems.length, 10);
+          const recent = genItems.slice(-recentN).map(x=>+x.answer);
+          const freq = [0,0,0,0,0]; // 1~5 빈도
+          recent.forEach(n=>{ if(n>=1&&n<=5) freq[n-1]++; });
+          // 현재 정답 번호의 빈도
+          const curFreq = freq[+q.answer-1];
+          // 빈도가 가장 낮은 번호 목록
+          const minFreq = Math.min(...freq);
+          const leastUsed = freq.map((f,i)=>f===minFreq?i+1:-1).filter(x=>x>0);
+          // 현재 정답이 이미 최소 빈도라면 그대로, 아니면 최소 빈도 중 하나로 재배열
+          if(curFreq > minFreq){
+            // 목표 정답 번호: 최소 빈도 중 현재 answer와 가장 가까운 것
+            const target = leastUsed.reduce((a,b)=>Math.abs(a-q.answer)<Math.abs(b-q.answer)?a:b);
+            const ansIdx = +q.answer - 1;
+            const targetIdx = target - 1;
+            // 정답 선지를 target 위치로 이동 (swap)
+            [q.choices[ansIdx], q.choices[targetIdx]] = [q.choices[targetIdx], q.choices[ansIdx]];
+            if(q.points && q.points.length===5){
+              [q.points[ansIdx], q.points[targetIdx]] = [q.points[targetIdx], q.points[ansIdx]];
+            }
+            q.answer = target;
+          }
+        }
+        // 밑줄형: body 등장 순서대로 ①~⑤ 재번호매김
+        if((typeId==='grammar-u' || typeId==='vocab-u') && q.body){
+          const CIRCS=['①','②','③','④','⑤'];
+          // 등장 순서 파악: 각 번호의 첫 등장 위치
+          const order = CIRCS
+            .map(c=>({c, idx:q.body.indexOf('<u>'+c)}))
+            .filter(x=>x.idx>=0)
+            .sort((a,b)=>a.idx-b.idx);
+          if(order.length===5){
+            // 현재 번호 → 새 번호 매핑
+            const map={};
+            order.forEach((x,i)=>{ map[x.c]=CIRCS[i]; });
+            // 충돌 방지를 위해 임시 플레이스홀더로 교체 후 최종 치환
+            const PH=['【A】','【B】','【C】','【D】','【E】'];
+            let body=q.body;
+            order.forEach((x,i)=>{ body=body.replaceAll('<u>'+x.c, '<u>'+PH[i]); });
+            PH.forEach((p,i)=>{ body=body.replaceAll('<u>'+p, '<u>'+CIRCS[i]); });
+            q.body=body;
+            // answer도 재매핑
+            const oldAnsCirc=CIRCS[+q.answer-1];
+            const newAns=map[oldAnsCirc];
+            if(newAns) q.answer=CIRCS.indexOf(newAns)+1;
+            // points도 재배열
+            if(q.points?.length===5){
+              const oldPoints=[...q.points];
+              order.forEach((x,i)=>{ q.points[i]=oldPoints[CIRCS.indexOf(x.c)]; });
+            }
+          }
+        }
+        q.type=typeId; q.src=p.title; genItems.push(q);
+        ld.replaceWith(qCardEl(q,genItems.length));
+        updateInfo(); return;
+      }catch(e){
+        if(attempt<MAX_RETRY){ ld.textContent=`[${typeName}] ${p.title} 재시도 중…`; continue; }
+        ld.outerHTML=`<div class="err"><b>생성 실패</b> — ${p.title}·${typeName}<br>${e.message}</div>`;
+        updateInfo(); return;
       }
     }
   }
+
+  if(genGroupBy==='type'){
+    // 유형 → 지문 순서
+    const typeSet=new Map();
+    ps.forEach(p=>getPassagePick(p).forEach(t=>typeSet.set(t.id,Math.max(typeSet.get(t.id)||0,t.n))));
+    const typeOrder=TYPES.map(t=>t.id).filter(id=>typeSet.has(id));
+    for(const typeId of typeOrder){
+      const typeName=TYPES.find(x=>x.id===typeId).name;
+      const secHead=document.createElement('div'); secHead.className='q-sec-head';
+      secHead.innerHTML=`📝 ${typeName} <span class="qcnt">생성 중…</span>`;
+      $('genOut').appendChild(secHead);
+      let cnt=0;
+      for(const p of ps){
+        const t=getPassagePick(p).find(x=>x.id===typeId);
+        if(!t) continue;
+        for(let k=0;k<t.n;k++){ await genOne(typeId,p); cnt++; }
+      }
+      secHead.querySelector('.qcnt').textContent=`${cnt}문항`;
+    }
+  } else {
+    // 지문 → 유형 순서
+    for(const p of ps){
+      const pick=getPassagePick(p);
+      if(!pick.length) continue;
+      const secHead=document.createElement('div'); secHead.className='q-sec-head';
+      secHead.innerHTML=`📄 ${p.title} <span class="qcnt">생성 중…</span>`;
+      $('genOut').appendChild(secHead);
+      let cnt=0;
+      for(const t of pick){ for(let k=0;k<t.n;k++){ await genOne(t.id,p); cnt++; } }
+      secHead.querySelector('.qcnt').textContent=`${cnt}문항`;
+    }
+  }
+
   $('genBtn').disabled=false;
-  $('genActions').style.display = genItems.length?'flex':'none';
+  $('genActions').style.display=genItems.length?'flex':'none';
 };
 
-function rich(t){ return (t||'').replace(/_{3,}/g,'<span class="blank"></span>').replace(/__?\((A|B|C)\)__?/g,'<span class="blank-l">($1)</span>'); }
+
+function rich(t){
+  return (t||'')
+    .replace(/_{3,}/g,'<span class="blank"></span>')
+    .replace(/__?\((A|B|C)\)__?/g,'<span class="blank-l">($1)</span>')
+    // 밑줄형: <u>텍스트</u> → <u><b>텍스트</b></u>
+    .replace(/<u>([^<]*)<\/u>/g,'<u><b>$1</b></u>')
+    // 네모어법/어휘: (A)[옳은/틀린] 또는 [옳은/틀린] 패턴 볼드
+    .replace(/(\([A-C]\))?\[([^\]]+\/[^\]]+)\]/g,(m,label,inner)=>(label||'')+'<b>['+inner+']</b>');
+}
 function qInner(q, no){
   const cat = TYPES.find(t=>t.id===q.type)?.cat||'A';
-  let h = `<div class="qp">${no}. ${q.prompt}</div>`;
+  let h = `<div class="qp">${no}. ${q.prompt || TYPE_SPECS[q.type]?.prompt || ''}</div>`;
   if(q.box) h+=`<div class="qbox serif">${rich(q.box)}</div>`;
   if(q.body) h+=`<div class="qbody serif">${rich(q.body).replace(/\n/g,'<br>')}</div>`;
   if(q.summary) h+=`<div class="qsum serif">${rich(q.summary)}</div>`;
-  if(q.choices) h+=`<ol>${q.choices.map((c,i)=>`<li>${i+1===+q.answer?'<span class="ans-circle"></span>':''}<span class="m">${CIRC[i]}</span>${rich(String(c).replace(/^[①-⑤]\s*/,''))}</li>`).join('')}</ol>`;
+  if(q.choices && !isSymbolOnlyChoices(q)) h+=`<ol>${q.choices.map((c,i)=>`<li>${i+1===+q.answer?'<span class="ans-circle"></span>':''}<span class="m">${CIRC[i]}</span><b>${rich(String(c).replace(/^[①-⑤]\s*/,''))}</b></li>`).join('')}</ol>`;
+  // 어법 밑줄형 포인트 힌트
+  if(q.type==='grammar-u' && q.points?.length){
+    h+=`<div class="gp-hint">${q.points.map((p,i)=>`<span class="gp-tag ${i+1===+q.answer?'gp-ans':''}">${p}</span>`).join('')}</div>`;
+  }
   return h;
 }
 function qCardEl(q, no){
@@ -861,17 +1167,58 @@ function qCardEl(q, no){
   const d=document.createElement('div'); d.className='qcard';
   d.innerHTML = `<div class="head"><span class="num">${no}</span><span class="badge cat${t.cat}">${t.cat}</span><b style="font-size:12.5px">${t.name}</b><span class="src">${q.src}</span><button class="del" title="삭제">✕</button></div>
     ${qInner(q,no).replace(`<div class="qp">${no}. `,`<div class="qp">`)}
-    <div class="expl"><b>정답 ${CIRC[+q.answer-1]}</b> · ${q.expl||''}</div>`;
+    <div class="expl"><b>정답 ${(()=>{const _a=parseInt(q.answer,10);return(_a>=1&&_a<=5)?CIRC[_a-1]:'?';})()}</b> · ${q.expl||''}</div>`;
   d.querySelector('.del').onclick=()=>{ genItems=genItems.filter(x=>x!==q); rerenderGen(); };
   return d;
 }
+function getGroupedItems(){
+  if(genGroupBy==='type'){
+    // 유형별 그룹: 유형 → 지문 순서
+    const groups=[];
+    TYPES.forEach(t=>{
+      const items=genItems.map((q,i)=>({q,i})).filter(({q})=>q.type===t.id);
+      if(items.length) groups.push({key:t.name, icon:'📝', items});
+    });
+    return groups;
+  } else {
+    // 지문별 그룹: 지문 등장 순서대로
+    const groups=[]; let lastSrc=null;
+    genItems.forEach((q,i)=>{
+      if(q.src!==lastSrc){ groups.push({key:q.src, icon:'📄', items:[]}); lastSrc=q.src; }
+      groups[groups.length-1].items.push({q,i});
+    });
+    return groups;
+  }
+}
 function rerenderGen(){
   $('genOut').innerHTML='';
-  genItems.forEach((q,i)=>$('genOut').appendChild(qCardEl(q,i+1)));
-  if(!genItems.length) $('genOut').innerHTML='<div class="empty">생성된 문제가 없습니다.</div>';
-  $('genActions').style.display = genItems.length?'flex':'none';
+  if(!genItems.length){ $('genOut').innerHTML='<div class="empty">생성된 문제가 없습니다.</div>'; $('genActions').style.display='none'; updateInfo(); return; }
+  const groups = getGroupedItems();
+  const showHeaders = groups.length > 1 || (groups.length===1 && genGroupBy==='type');
+  // 유형별 모드일 때는 전체 일련번호가 유형별로 재배열됨 → 각 그룹 안에서 1부터 카운트
+  let globalNo = 1;
+  groups.forEach(g=>{
+    if(showHeaders){
+      const h=document.createElement('div'); h.className='q-sec-head';
+      h.innerHTML=`${g.icon} ${g.key} <span class="qcnt">${g.items.length}문항</span>`;
+      $('genOut').appendChild(h);
+    }
+    g.items.forEach(({q})=>{
+      $('genOut').appendChild(qCardEl(q, globalNo++));
+    });
+  });
+  $('genActions').style.display='flex';
   updateInfo();
 }
+let genGroupBy = 'passage'; // 'passage' | 'type'
+function setGroupBy(mode){
+  genGroupBy=mode;
+  $('sortPassage').classList.toggle('on', mode==='passage');
+  $('sortType').classList.toggle('on', mode==='type');
+  rerenderGen();
+}
+$('sortPassage').onclick=()=>setGroupBy('passage');
+$('sortType').onclick=()=>setGroupBy('type');
 $('toggleAns').onclick=e=>{document.body.classList.toggle('show-ans');e.target.classList.toggle('on');};
 
 /* ════════ 지문 분석 ════════ */
@@ -888,7 +1235,7 @@ function toonSvgSpec(){
 const MODE_SPECS = {
  trans:`영어 한줄해석(인터리니어 직독직해) 자료를 만들어라. 학생이 영어 원문 바로 아래에서 같은 위치의 한국어 뜻을 한눈에 확인하도록, 문장을 자연스러운 끊어 읽기 단위(3~6단어)로 나누고 각 단위의 영어 바로 아래에 그 단위의 한국어 해석을 붙인다(인터리니어 정렬). 규칙: (1) 각 의미 단위를 <span class=\\"ic\\"><span class=\\"en [su|v|o|c|mod|gp]\\">영어</span><span class=\\"ko\\">한국어</span></span> 형태로 감싼다 — su 주어, v 동사(술어), o 목적어, c 보어, mod 일반 수식어구(전치사구·to부정사 등), gp 핵심 구문 포인트(관계대명사절·분사구문·가정법·도치 등 시험에 자주 나오는 구조). (2) 한 문장의 모든 ic 단위를 <div class=\\"il\\">...</div>로 감싸고, 콤마·마침표 등 구두점과 단순 접속사는 별도 span 없이 직전 단위 바로 뒤에 일반 텍스트로 붙인다. (3) gp로 표시한 단위에는 ko 바로 다음에 <span class=\\"tag\\">(문법 설명)</span>을 추가해 그 구조가 무엇인지 한 줄로 짧게 설명한다 — 문장당 1~2곳, 가장 중요한 포인트에만 사용하고 과하게 달지 마라. JSON: {"html":"<div class=\\"tr\\"><div class=\\"il\\"><span class=\\"ic\\"><span class=\\"en su\\">The boy</span><span class=\\"ko\\">그 소년은</span></span> <span class=\\"ic\\"><span class=\\"en v\\">read</span><span class=\\"ko\\">읽었다</span></span> <span class=\\"ic\\"><span class=\\"en o\\">the book</span><span class=\\"ko\\">그 책을</span></span> <span class=\\"ic\\"><span class=\\"en mod\\">in the library</span><span class=\\"ko\\">도서관에서</span></span>.</div></div>...문장 수만큼 반복..."} gp+tag 예시: <span class=\\"ic\\"><span class=\\"en gp\\">that rises</span><span class=\\"ko\\">솟아오르는</span><span class=\\"tag\\">(주격 관계대명사)</span></span>. HTML은 들여쓰기·줄바꿈 없이 압축해 작성하라.`,
  syntax:`이 지문에서 시험(수능·내신 어법)에 출제될 가능성이 높은 핵심 구문 4~6개를 골라 분석하라. 다음 어법 출제 포인트(『어법끝』 기출 빈출 항목) 중 지문에 실제 등장하는 것만 고르라:\n__GP__\n각 구문마다 ① 해당 영어 구문(지문에서 인용), ② 관련 어법 포인트 이름, ③ 구조·판단 근거(왜 그 형태가 맞는지), ④ 시험에서 이 포인트가 어떻게 오답으로 함정 나올 수 있는지를 해라체로 서술하라. JSON: {"html":"<table><tr><th>핵심 구문</th><th>어법 포인트</th><th>분석 · 함정 주의</th></tr>...구문별 행..."} HTML은 압축해 작성하라.`,
- vocab:`핵심 어휘 10~14개를 정리하라. JSON: {"html":"<table><tr><th>어휘</th><th>뜻</th><th>유의어/파생어</th></tr>..."}`,
+ vocab:`핵심 어휘 10~14개를 정리하라. [표기 규칙] 표에 들어가는 모든 단어(표제어·유의어·반의어)는 반드시 '영어단어(한글뜻)' 형식으로 쓴다 — 예: abundant(풍부한). 유의어와 반의어를 각각 1~2개씩 찾아 표기하고, 마땅한 반의어가 없는 단어는 반의어 칸에 '-'만 쓴다. JSON: {"html":"<table><tr><th>어휘</th><th>유의어</th><th>반의어</th></tr><tr><td>abundant(풍부한)</td><td>plentiful(많은), ample(충분한)</td><td>scarce(부족한)</td></tr>...10~14행...</table>"} HTML은 압축해 작성하라.`,
  summ:`주제문을 찾아 인용하고 글 전체를 3문장 이내로 요약하라. 한줄 요지(한국어)도 제시. JSON: {"html":"..."}`,
  essay:`이 지문으로 내신 시험에 출제될 가능성이 높은 포인트를, 객관식과 서술형을 모두 종합해 6~8개 제시하라. [가장 중요한 규칙] 추상적인 유형 이름(예: '빈칸 추론', '어법')만 쓰지 말고, 반드시 지문의 실제 문장·어구·내용을 직접 인용해 무엇을 어떻게 출제할지 완전한 문장으로 구체적으로 서술하라. [인용 표기 규칙] 지문을 인용할 때는 반드시 작은따옴표(')만 사용하라. 큰따옴표(")는 절대 쓰지 마라. 서술 형식 예시: (1) 빈칸형 → 'If we cannot imagine such a situation, then the hypothesis cannot be tested.' 부분을 빈칸으로 하여 가설의 검증 가능성에 대한 조건을 묻는 문제 출제 가능 (2) 주제·요지형 → 전체 지문의 핵심인 '과학적 가설은 반박 가능해야 한다'는 주제를 파악하는 문제 출제 가능 (3) 어법형 → '~' 부분의 분사 형태(능동/수동)를 어법상 옳은지 묻거나 고쳐 쓰게 하는 문제 출제 가능 (4) 어휘형 → '~' 단어를 반의어 '~'로 바꿔 문맥상 적절하지 않은 어휘를 찾는 문제 출제 가능 (5) 서술형 → '~' 문장을 우리말로 영작하게 하거나, 본문 내용을 한 문장으로 요약하게 하는 서술형 출제 가능 이처럼 각 항목은 '지문의 어느 부분을 + 어떤 방식으로 + 무엇을 묻는' 문제인지가 드러나야 한다. 반드시 출제 확률이 높은 순서로 정렬하고, 각 항목 앞에 출제 확률을 ★(높음)~★★★★★(매우 높음)로 표시하라. 설명은 해라체로 쓰라. JSON: {"html":"<table><tr><th>순위</th><th>확률</th><th>출제 예상 내용 (지문 인용 포함)</th></tr><tr><td>1</td><td>★★★★★</td><td>...구체 서술...</td></tr>...확률 높은 순서대로 행..."} HTML은 압축해 작성하라.`,
  back:`지문 소재의 배경지식을 학생 눈높이로 해설하라(6~8문장). JSON: {"html":"..."}`,
@@ -905,10 +1252,38 @@ function toonStyleSuffix(){
   return ', ' + (TOON_ART_STYLES[key] || TOON_ART_STYLES.disney);
 }
 function pollImg(prompt, seed){
+  return pollImgVariant(prompt, seed, 'flux');
+}
+function pollImgVariant(prompt, seed, model){
   const styled = prompt + toonStyleSuffix();
   const u = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(styled)
-    + '?width=512&height=384&nologo=true&seed=' + (seed||Math.floor(Math.random()*99999)) + '&model=flux';
+    + '?width=512&height=384&nologo=true&seed=' + seed + '&model=' + (model||'flux');
   return u;
+}
+function altPollUrl(prompt, seed){
+  const styled = prompt + toonStyleSuffix();
+  return 'https://gen.pollinations.ai/image/' + encodeURIComponent(styled) + '?width=512&height=384&seed=' + seed + '&model=flux';
+}
+function tryPollinationsChain(prompt, baseSeed, slot, onFail){
+  const urls=[
+    pollImgVariant(prompt, baseSeed, 'flux'),
+    pollImgVariant(prompt, baseSeed+97, 'turbo'),
+    altPollUrl(prompt, baseSeed+193)
+  ];
+  let i=0;
+  function attempt(){
+    if(i>=urls.length){ onFail(); return; }
+    const src=urls[i++];
+    const img=document.createElement('img');
+    img.alt='';
+    img.crossOrigin='anonymous';
+    let done=false;
+    const timer=setTimeout(()=>{ if(!done){ done=true; attempt(); } }, 12000);
+    img.onload=()=>{ if(done)return; done=true; clearTimeout(timer); slot.innerHTML=''; slot.appendChild(img); };
+    img.onerror=()=>{ if(done)return; done=true; clearTimeout(timer); attempt(); };
+    img.src=src;
+  }
+  attempt();
 }
 function toonAIHTML(cuts){
   if(!cuts||!cuts.length) return '';
@@ -944,10 +1319,61 @@ async function geminiTxt2Img(prompt, retries){
       return `data:${mime};base64,${imgPart.inlineData.data}`;
     }catch(e){
       lastErr=e;
-      if(i<(retries||1)) await new Promise(r=>setTimeout(r,800));
+      const wait = /\(429\)/.test(e.message) ? 2500 : 800;
+      if(i<(retries||1)) await new Promise(r=>setTimeout(r,wait));
     }
   }
   throw lastErr;
+}
+function showToonFail(slot, cuts, i, reason){
+  slot.innerHTML='';
+  const d=document.createElement('div'); d.className='img-fail';
+  const reasonLine = reason ? `<br><span style="font-size:10px;color:#b5b5b5">(${String(reason).slice(0,90)})</span>` : '';
+  d.innerHTML='이미지 로드 실패. 그림 스타일을 SVG로 바꿔보세요.'+reasonLine+'<br><button type="button" class="toon-retry">다시 시도</button>';
+  d.querySelector('.toon-retry').onclick=()=>{
+    slot.innerHTML='<div class="img-fail">재시도 중…</div>';
+    genOneCut(cuts, i, slot);
+  };
+  slot.appendChild(d);
+}
+async function genOneCut(cuts, i, slot){
+  const prompt = cuts[i].prompt||cuts[i].en||'';
+  const styled = prompt + toonStyleSuffix();
+  const hasKey = !!asciiSafe($('geminiKey').value);
+  const usePoll = (reason)=>{
+    slot.innerHTML='';
+    tryPollinationsChain(prompt, 1000+i+Math.floor(Math.random()*50), slot, ()=>showToonFail(slot, cuts, i, reason));
+  };
+  if(!hasKey){ usePoll('Gemini 키 없음 → Pollinations만 사용'); return; }
+  try{
+    const dataUrl = await geminiTxt2Img(styled, 2);
+    slot.innerHTML='';
+    const img=document.createElement('img');
+    img.src=dataUrl; img.alt='cut '+(i+1);
+    slot.appendChild(img);
+  }catch(e){
+    usePoll('Gemini 실패: '+(e.message||'')); // Gemini 실패 시 Pollinations 폴백
+  }
+}
+function imgToDataURL(img){
+  return new Promise(resolve=>{
+    try{
+      const c=document.createElement('canvas');
+      c.width=img.naturalWidth||512; c.height=img.naturalHeight||384;
+      const ctx=c.getContext('2d');
+      ctx.drawImage(img,0,0,c.width,c.height);
+      resolve(c.toDataURL('image/jpeg',0.85));
+    }catch(e){ resolve(null); } // CORS로 막히면 원본 src 유지
+  });
+}
+async function inlineToonImages(host){
+  const imgs=Array.from(host.querySelectorAll('.toon img'));
+  for(const img of imgs){
+    if(!img.src || img.src.startsWith('data:')) continue;
+    if(!img.complete || img.naturalWidth===0) continue;
+    const dataUrl=await imgToDataURL(img);
+    if(dataUrl) img.src=dataUrl;
+  }
 }
 async function toonPuterHTML(cuts, host){
   if(!cuts||!cuts.length) return;
@@ -956,25 +1382,8 @@ async function toonPuterHTML(cuts, host){
     `<div class="cut-cap"><p class="en">${c.en||''}</p><p class="ko">${c.ko||''}</p></div></div>`).join('')+`</div>`;
   for(let i=0;i<cuts.length;i++){
     const slot = host.querySelector(`.cut-img[data-i="${i}"]`);
-    const styled = (cuts[i].prompt||cuts[i].en||'') + toonStyleSuffix();
-    const hasKey = !!asciiSafe($('geminiKey').value);
-    const usePoll = ()=>{
-      slot.innerHTML='';
-      const img=document.createElement('img');
-      img.src=pollImg(cuts[i].prompt||cuts[i].en||'', 1000+i); img.alt='cut '+(i+1);
-      img.onerror=()=>{ slot.innerHTML=''; const d=document.createElement('div'); d.className='img-fail'; d.textContent='이미지 로드 실패. 그림 스타일을 SVG로 바꿔보세요.'; slot.appendChild(d); };
-      slot.appendChild(img);
-    };
-    if(!hasKey){ usePoll(); continue; }   // Gemini 키 없으면 바로 Pollinations
-    try{
-      const dataUrl = await geminiTxt2Img(styled);
-      slot.innerHTML='';
-      const img=document.createElement('img');
-      img.src=dataUrl; img.alt='cut '+(i+1);
-      slot.appendChild(img);
-    }catch(e){
-      usePoll();   // Gemini 실패 시 Pollinations 폴백
-    }
+    await genOneCut(cuts, i, slot);
+    if(i<cuts.length-1) await new Promise(r=>setTimeout(r, 4500)); // Gemini 무료 티어 RPM 여유두기
   }
 }
 function toonHTML(cuts){
@@ -1014,6 +1423,7 @@ $('analBtn').onclick = async ()=>{
         if(isAI){
           const host=card.querySelector('.abody');
           await toonPuterHTML(cuts, host);
+          await inlineToonImages(host);
           html=host.innerHTML;
         }
         analItems.push({src:p.title, mode:'toon', name:'4컷 요약 만화', html});
@@ -1064,40 +1474,144 @@ function waitImages(root, timeoutMs){
   }));
 }
 async function doPrint(html, withAns){
-  $('printRoot').innerHTML=html;
+  $('printRoot').innerHTML = html;
   if(withAns) document.body.classList.add('print-ans');
   if($('printRoot').querySelector('img')){
     document.body.style.cursor='wait';
-    await waitImages($('printRoot'), 10000);
+    await waitImages($('printRoot'), 12000);
     document.body.style.cursor='';
   }
-  if(!localStorage.getItem('yuil:printHintShown')){
-    alert('인쇄 대화상자에서 날짜·파일경로·페이지번호를 완전히 없애려면\n[추가 설정] → "머리글 및 바닥글" 체크를 해제하세요.\n(이 안내는 다시 표시되지 않습니다)');
-    try{ localStorage.setItem('yuil:printHintShown','1'); }catch(e){}
-  }
-  window.print();
+  // 스타일 추출
+  const styles = Array.from(document.styleSheets).map(ss=>{
+    try{ return Array.from(ss.cssRules).map(r=>r.cssText).join('\n'); }
+    catch(e){ return ''; }
+  }).join('\n');
+
+  const printHtml = `<!DOCTYPE html><html lang="ko"><head>
+<meta charset="UTF-8">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Pretendard',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#fff;color:#22302a;font-size:14px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+${styles}
+@page{size:A4;margin:12mm 11mm 10mm}
+body{padding:0}
+#printRoot{display:block!important;padding:0;background:#fff}
+</style>
+</head><body${withAns?' class="print-ans"':''}>
+<div id="printRoot">${$('printRoot').innerHTML}</div>
+<script>window.onload=function(){window.print();setTimeout(()=>window.close(),2000);}<\/script>
+</body></html>`;
+
   document.body.classList.remove('print-ans');
+  // about:blank 새 창에 document.write → 머리글/바닥글에 URL이 표시되지 않음
+  const w = window.open('','_blank','width=960,height=760');
+  if(!w){ alert('팝업이 차단됐습니다. 브라우저에서 팝업 허용 후 다시 시도하세요.'); return; }
+  w.document.open();
+  w.document.write(printHtml);
+  w.document.close();
 }
 $('printQ').onclick=()=>printGen(false);
 $('printQA').onclick=()=>printGen(true);
+
+// 선지를 숨길 문제 유형: 지문 내 번호로 이미 표시되는 유형
+function isSymbolOnlyChoices(q){
+  if(!q.choices) return true;
+  if(['grammar-u','vocab-u'].includes(q.type)) return true;
+  return q.choices.every(c=>String(c).trim().match(/^[①②③④⑤]$/));
+}
+
 function printGen(withAns){
   if(!genItems.length)return;
+  const groups = getGroupedItems();
+  const showHeaders = groups.length>1 || genGroupBy==='type';
+  const orderedItems = [];
+  let globalNo=1;
+
+  // 모든 출력 항목을 flat 배열로: {type:'head',label} | {type:'q',q}
+  const flat=[];
+  groups.forEach(g=>{
+    if(showHeaders) flat.push({type:'head', label:`${g.icon==='📝'?'[유형] ':'[지문] '}${g.key}`, cnt:g.items.length});
+    g.items.forEach(({q})=>{ flat.push({type:'q',q}); orderedItems.push(q); });
+  });
+
+  // 4문제씩 페이지 묶기: 헤더는 바로 다음 문제와 같은 페이지에 붙임
+  const pages=[]; // 각 페이지는 item 배열
+  let cur=[], qCnt=0;
+  for(const item of flat){
+    if(item.type==='head'){
+      // 헤더: 현재 페이지에 이미 4문제 있으면 새 페이지로
+      if(qCnt>=4){ pages.push(cur); cur=[]; qCnt=0; }
+      cur.push(item);
+    } else {
+      // 문제: 4문제 초과시 새 페이지 (헤더는 넘기지 않음)
+      if(qCnt>=4){ pages.push(cur); cur=[]; qCnt=0; }
+      cur.push(item); qCnt++;
+    }
+  }
+  if(cur.length) pages.push(cur);
+
+  // HTML 빌드: 페이지 사이에만 break-before:page, 마지막 페이지 뒤에는 없음
   let h = ppHead('영어 변형문제','유일영어 문제은행');
-  h += `<div class="pp-cols">${genItems.map((q,i)=>`<div class="pq">${qInner(q,i+1)}</div>`).join('')}</div>`;
+  pages.forEach((page, pi)=>{
+    if(pi>0) h+=`<div style="break-before:page"></div>`+ppHead('영어 변형문제','유일영어 문제은행');
+    h+=`<div class="pp-cols">`;
+    page.forEach(item=>{
+      if(item.type==='head'){
+        h+=`<div class="pa-sec wide" style="margin-bottom:4px"><h4>${item.label} <span style="font-weight:400;font-size:10.5px;color:#888">${item.cnt}문항</span></h4></div>`;
+      } else {
+        h+=`<div class="pq">${qInnerPrint(item.q,globalNo++)}</div>`;
+      }
+    });
+    h+=`</div>`;
+  });
+
   if(withAns){
-    h += `<div style="break-before:page"></div>` + ppHead('정답 및 해설','유일영어 문제은행');
-    h += `<div class="pp-cols">${genItems.map((q,i)=>`<div class="pexp"><b>${i+1}. 정답 ${CIRC[+q.answer-1]}</b> ${q.expl||''}</div>`).join('')}</div>`;
+    // 정답 페이지: 앞 페이지가 있을 때만 break-before (pages.length>0 보장됨)
+    h+=`<div style="break-before:page"></div>`+ppHead('정답 및 해설','유일영어 문제은행');
+    const CHUNK=10;
+    h+=`<div class="ans-summary">`;
+    for(let s=0;s<orderedItems.length;s+=CHUNK){
+      const slice=orderedItems.slice(s,s+CHUNK);
+      h+=`<table class="ans-table" style="margin-bottom:8px"><thead><tr>`;
+      slice.forEach((_,i)=>{ h+=`<th>${s+i+1}</th>`; });
+      h+=`</tr></thead><tbody><tr>`;
+      slice.forEach(q=>{ const ai=parseInt(q.answer,10); h+=`<td>${(ai>=1&&ai<=5)?CIRC[ai-1]:'?'}</td>`; });
+      h+=`</tr></tbody></table>`;
+    }
+    h+=`</div>`;
+    h+=`<div class="pp-cols">${orderedItems.map((q,i)=>{
+      const typeName=TYPES.find(t=>t.id===q.type)?.name||'';
+      const _ai=parseInt(q.answer,10); return `<div class="pexp"><b>${i+1}.</b> <span class="ans-badge">${(_ai>=1&&_ai<=5)?CIRC[_ai-1]:'?'}</span> <span style="font-size:10px;color:#888">[${typeName}] ${q.src}</span><br>${q.expl||''}</div>`;
+    }).join('')}</div>`;
   }
   doPrint(h, withAns);
 }
+
+// 인쇄 전용 qInner: 기호 전용 선택지 생략
+function qInnerPrint(q, no){
+  let h = `<div class="qp">${no}. ${q.prompt || TYPE_SPECS[q.type]?.prompt || ''}</div>`;
+  if(q.box) h+=`<div class="qbox serif">${rich(q.box)}</div>`;
+  if(q.body) h+=`<div class="qbody serif">${rich(q.body).replace(/\n/g,'<br>')}</div>`;
+  if(q.summary) h+=`<div class="qsum serif">${rich(q.summary)}</div>`;
+  if(q.choices && !isSymbolOnlyChoices(q))
+    h+=`<ol>${q.choices.map((c,i)=>`<li><span class="m">${CIRC[i]}</span>${rich(String(c).replace(/^[①-⑤]\s*/,''))}</li>`).join('')}</ol>`;
+  return h;
+}
 function buildAnalysisPrintHTML(items){
   let h = ppHead('영어 지문 분석지','유일영어 문제은행');
-  h += `<div class="pp-cols one">${items.map(a=>`<div class="pa-sec"><h4>${a.name} <span style="font-weight:500;font-size:11px;color:#888">${a.src}</span></h4>${a.html}</div>`).join('')}</div>`;
-  const tfEx = items.filter(a=>a.mode==='tf' && a.expl);
-  if(tfEx.length){
-    h += `<div style="break-before:page"></div>` + ppHead('T/F 정답 및 해설','유일영어 문제은행');
-    h += `<div class="pp-cols one">${tfEx.map(a=>`<div class="pa-sec"><h4>${a.src}</h4>${a.expl}</div>`).join('')}</div>`;
-  }
+  const WIDE = new Set(['trans','syntax','essay','toon','summ','back','tf']);
+  // T/F 항목: 문제 html 아래에 해설 블록을 바로 붙임
+  const merged = items.map(a=>{
+    if(a.mode==='tf' && a.expl){
+      return {...a, html: a.html +
+        `<div class="tf-expl-block"><h5>정답 및 해설</h5>${a.expl}</div>`};
+    }
+    return a;
+  });
+  h += `<div class="pp-cols">${merged.map(a=>{
+    const wide = WIDE.has(a.mode) ? ' wide' : '';
+    return `<div class="pa-sec${wide}"><h4>${a.name} <span>${a.src}</span></h4>${a.html}</div>`;
+  }).join('')}</div>`;
   return h;
 }
 $('printA').onclick=()=>{
@@ -1164,8 +1678,14 @@ function renderMine(){
     c.classList.toggle('on', on);
   });
 }
-$('tSelAll').onclick=()=>setAll('typeGrid',true);
-$('tSelNone').onclick=()=>setAll('typeGrid',false);
+$('tSelAll').onclick=()=>{setAll('typeGrid',true); renderPlanTable();};
+$('tSelNone').onclick=()=>{setAll('typeGrid',false); renderPlanTable();};
+$('planApplyAll').onclick=()=>{
+  const ps=selectedPassages(), defaults=getDefaultPicked();
+  ps.forEach(p=>{ passPlan[p.id]={}; defaults.forEach(d=>{ passPlan[p.id][d.id]=d.n; }); });
+  renderPlanTable();
+};
+$('planReset').onclick=()=>{ selectedPassages().forEach(p=>delete passPlan[p.id]); renderPlanTable(); };
 $('mSelAll').onclick=()=>setAll('modeGrid',true);
 $('mSelNone').onclick=()=>setAll('modeGrid',false);
 renderBooks(); renderTree(); renderTypeGrid(); renderModeGrid(); renderGPChips(); updateInfo();
